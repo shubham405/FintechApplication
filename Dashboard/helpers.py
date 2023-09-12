@@ -3,12 +3,22 @@ from django.core.mail import send_mail
 from datetime import datetime
 from django.conf import settings
 
-def send_forget_password_mail(email,token):
+def send_forget_password_mail(email,token,uid):
     subject = "Forgot Password Link"
-    message = f"Hi click here to change your password http://127.0.0.1:8000/resetPassword/{token}/"
+    message = f"Hi click here to change your password http://127.0.0.1:8000/resetPassword/{uid}/{token}/"
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject,message,email_from,recipient_list)
+    return True
+def send_email_verification(email,token,uid):
+    try:
+        subject = "Your account needs to be verified "
+        message = f"click on the link to verify http://127.0.0.1:8000/verify/{uid}/{token}/"
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        send_mail(subject,message,email_from,recipient_list)
+    except:
+        return False    
     return True
 def createRequestBodyForCC(request):
     features = request.POST["transactionsDetails"]

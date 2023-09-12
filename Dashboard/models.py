@@ -14,12 +14,14 @@ class Adpages(models.Model):
         managed = True
         db_table = 'adpages'
 class UsersTable(models.Model):
-    id = models.AutoField(primary_key=True)
-    email = models.EmailField()
-    firstName = models.CharField(max_length=100)
-    lastName = models.CharField(max_length=150, null=True)
-    password = models.CharField(max_length=300)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    forgot_password_token = models.CharField(max_length=100,null = True)
+    email_token = models.CharField(max_length=200,null=True)
+    isVerified= models.BooleanField(default=False)
+    isAdmin = models.BooleanField(default=False)
+
+    
+
     class Meta:
         managed = True
         db_table = 'users_table'
