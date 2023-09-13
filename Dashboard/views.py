@@ -33,8 +33,7 @@ def verificationSent(request):
     display = 'You have registerd successfully'
     if request.session.has_key('login') and request.session['login']=='login':
         display = 'Please verify your email first'
-        return render(request,'dashboard/verificationSent.html',{'displayMessage':display})
-    return redirect('/')
+    return render(request,'dashboard/verificationSent.html',{'displayMessage':display})
 def verifyEmail(request,token,uidb64):
     try:
        uid = force_str(urlsafe_base64_decode(uidb64))
