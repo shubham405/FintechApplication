@@ -20,6 +20,7 @@ import uuid
 from django.core.mail import send_mail
 import requests as rq
 import uuid
+import os
 
 # Create your views here.
 def dashboard(request):
@@ -30,7 +31,7 @@ def dashboard(request):
 def verificationSent(request):
    
     display = 'You have registerd successfully'
-    if request.session['login']=='login':
+    if request.session.has_key('login') and request.session['login']=='login':
         display = 'Please verify your email first'
         return render(request,'dashboard/verificationSent.html',{'displayMessage':display})
     return redirect('/')
@@ -182,14 +183,19 @@ def resetPassword(request,token,uidb64):
 def prediction(request):
     if request.method == "POST":
         requestBody = createRequestBodyForCC(request)
-        print(requestBody)
+        #print(requestBody)
         if requestBody!="Invalid format" :
-            base_url = 'http://127.0.0.1:5000'
+            base_url = os.environ.get('API_URL')
             response =  rq.post(base_url+'/predictCreditCardFraud',json=requestBody)
-            print(response)
+            #print(response)
             response = response.json()
             result = response['result']
-            messages.success(request, result)
+            #print(result)
+
+            if result=="Fraudulent":
+                messages.error(request,result)
+            else:
+                messages.success(request, result)
             return render(request, 'dashboard/predict.html') 
         else:
             messages.error(request, requestBody)

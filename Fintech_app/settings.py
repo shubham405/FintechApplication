@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-#50u4@45bs=l%-jye%#f%y+8qg4r6mrt1&emw-ul5l%=gdgxy@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG',"False").lower()=="true"
 
 ALLOWED_HOSTS = ['*']
 
@@ -92,7 +93,10 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+DB_URL = os.environ.get('DB_URL')
+DATABASES['default']=dj_database_url.parse(DB_URL)
 
+#postgres://testdb_ag3o_user:dTGGWkfveNVtHBqx3WS3M5Ld7WMAdvXA@dpg-ck09pku1erts73b2sv8g-a.oregon-postgres.render.com/testdb_ag3o
 
 
 # Password validation
@@ -148,3 +152,4 @@ EMAIL_PORT = 587
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'iitp2203@gmail.com'
 EMAIL_HOST_PASSWORD = 'fgljcciituxrninx'
+API_URL = 'https://fintech-api-9yjx.onrender.com'

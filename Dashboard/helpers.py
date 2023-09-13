@@ -2,10 +2,14 @@ from django.core.mail import send_mail
 # for generating the random token or string
 from datetime import datetime
 from django.conf import settings
+import os
+
+host_url = os.environ.get('HOST_URL')
+
 
 def send_forget_password_mail(email,token,uid):
     subject = "Forgot Password Link"
-    message = f"Hi click here to change your password http://127.0.0.1:8000/resetPassword/{uid}/{token}/"
+    message = f"Hi click here to change your password {host_url}/resetPassword/{uid}/{token}/"
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject,message,email_from,recipient_list)
@@ -13,7 +17,7 @@ def send_forget_password_mail(email,token,uid):
 def send_email_verification(email,token,uid):
     try:
         subject = "Your account needs to be verified "
-        message = f"click on the link to verify http://127.0.0.1:8000/verify/{uid}/{token}/"
+        message = f"click on the link to verify {host_url}/verify/{uid}/{token}/"
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [email]
         send_mail(subject,message,email_from,recipient_list)
