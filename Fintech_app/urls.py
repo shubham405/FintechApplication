@@ -24,4 +24,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # adding dashboard URLs
 ]
-urlpatterns+=staticfiles_urlpatterns
+urlpatterns+=staticfiles_urlpatterns()
