@@ -15,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
-from .helpers import send_forget_password_mail,createRequestBodyForCC,send_email_verification
+from .helpers import send_forget_password_mail,createRequestBodyForCC,send_email_verification,fetchAllData
 import uuid
 from django.core.mail import send_mail
 import requests as rq
@@ -25,6 +25,12 @@ import os
 # Create your views here.
 def dashboard(request):
      if request.user.is_authenticated:
+        res = fetchAllData()
+        fraudCount = res[0]
+        nonFraudCount = res[1]
+        request.session['fraudCount']=fraudCount
+        request.session['nonFraudCount']= nonFraudCount
+        #context = {'fraudVal': fraudVal, 'nonFraudVal':nonFraudVal}
         return render(request, 'dashboard/index.html')
      messages.error(request,"Please login first")
      return redirect("/")
@@ -180,26 +186,30 @@ def resetPassword(request,token,uidb64):
         return redirect('/')
     return render(request,'dashboard/index.html')
 def prediction(request):
-    if request.method == "POST":
-        requestBody = createRequestBodyForCC(request)
-        #print(requestBody)
-        if requestBody!="Invalid format" :
-            base_url = os.environ.get('API_URL')
-            response =  rq.post(base_url+'/predictCreditCardFraud',json=requestBody)
-            #print(response)
-            response = response.json()
-            result = response['result']
-            #print(result)
-
-            if result=="Fraudulent":
-                messages.error(request,result)
+    if request.user.is_authenticated:
+        request.session['show']=False
+        if request.method == "POST":
+            requestBody = createRequestBodyForCC(request)
+            print(requestBody)
+            if requestBody!="Invalid format" :
+                base_url = os.environ.get('API_URL')
+                response =  rq.post(base_url+'/predictCreditCardFraud',json=requestBody)
+                #print(response)
+                response = response.json()
+                result = response['result']
+                print(response)
+                request.session['fraudScore']= response['fraud_score']
+                request.session['show']=True
+                # if result=="Fraudulent":
+                #     messages.error(request,result)
+                # else:
+                #     messages.success(request, result)
+                return render(request, 'dashboard/predict.html') 
             else:
-                messages.success(request, result)
-            return render(request, 'dashboard/predict.html') 
-        else:
-            messages.error(request, requestBody)
-            return render(request, 'dashboard/predict.html',) 
-        
+                messages.error(request, requestBody)
+                return render(request, 'dashboard/predict.html',) 
+        return render(request, 'dashboard/predict.html')   
+    messages.error(request,"Please login first")
+    return redirect("/")
 
-    return render(request, 'dashboard/predict.html')    
 

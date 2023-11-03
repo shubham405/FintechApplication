@@ -34,6 +34,10 @@
   <body id="page-top">
   {% if user.is_authenticated %}
     <!-- Page Wrapper -->
+     <div id="hiddenDiv" style="display: none;">
+     <p id="fraudCount">{{ request.session.fraudCount }}</p>
+     <p id="nonFraudCount">{{ request.session.nonFraudCount }}</p>
+     </div>
     <div id="wrapper">
       <!-- Sidebar -->
       <ul
@@ -752,9 +756,7 @@
                       <span class="mr-2">
                         <i class="fas fa-circle text-success"></i> Non Fraud
                       </span>
-                      <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Could Not Say
-                      </span>
+                     
                     </div>
                   </div>
                 </div>

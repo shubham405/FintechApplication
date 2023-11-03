@@ -17,9 +17,13 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
 
     <!-- Custom styles for this template-->
+    <link href="{%static 'css/prediction.css'%}" rel="stylesheet">
     <link href="{%static 'css/custom.css'%}" rel="stylesheet">
+    
 
 </head>
 
@@ -34,21 +38,6 @@
                    <h3 style="text-align:center">Please Enter all the features of credit card and predict the fraud !</h3>
                 </div>
                 <div>
-                {% if messages %}
- 
-            {% for message in messages %}
-            {% if 'success' in message.tags %}
-            <div class="alert alert-success" role="alert">
-            {% else %}
-            <div class="alert alert-danger" role="alert">
-            {% endif %}
-
-                                    <b> The Transaction is {{ message }}</b>
-                                    {%endfor%}
-                                     </div>
-            {% endif%}
-            
-                </div>
                 <div class="row">
                 
                   <div class="col-lg-10">
@@ -59,32 +48,107 @@
                                         <input type="text" class="form-control form-control-user" id="firstName"
                                             placeholder="Enter transaction details" name = "transactionsDetails", required>
                                        <div class="userPrediction">
-                                   <button style="margin-left:10px;"type="submit"  class="btn btn-info btn-sm btn-user btn-block ">
+                                   <button style="margin-left:10px;"type="submit"  class="btn btn-info btn-sm btn-user btn-block " >
                                     Predict
                                      </button>
                                      </div> 
                                     </div>
-                            
-                                 
-                                
                      </form>
                     </div>
                 </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             </div>
         </div>
-
+    <!-- Pie Chart -->
+    {%if request.session.show%}
+    <div class="columns-container">
+             <div class="col-xl-8 col-lg-7">
+            <!-- Content on the left side -->
+             <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Unix_time</th>
+      <th scope="col">Category</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Merch Lat</th>
+      <th scope="col">Merch Long</th>
+    </tr>
+  </thead>
+  <tbody id = 'dataToShow'>
+    
+  </tbody>
+</table> 
+        </div>
+              <div class="col-xl-4 col-lg-5">
+              
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                  >
+                    <h6 class="m-0 font-weight-bold text-primary">
+                      Fraud Score
+                    </h6>
+                    <div class="dropdown no-arrow">
+                      <a
+                        class="dropdown-toggle"
+                        href="#"
+                        role="button"
+                        id="dropdownMenuLink"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i
+                          class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"
+                        ></i>
+                      </a>
+                      <div
+                        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink"
+                      >
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"
+                          >Something else here</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                    <div id="hiddenDiv" style="display: none;">
+            <p id="fraudScore">{{ request.session.fraudScore }}</p>
+            <p id = "curTransaction"> {{request.session.transaction}}</p>
+            </div>
+                      <canvas id="predictionPieChart"></canvas>
+                      <div id="valueLabel" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px;">Value</div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
     </div>
+    {%endif%}
 
     <!-- Bootstrap core JavaScript-->
     <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
     <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
-
+    <script src="{% static 'vendor/chart.js/Chart.js'%}"></script>
+    <script src="{%static 'js/prediction.js'%}"></script>
 </body>
 
 </html>

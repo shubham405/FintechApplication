@@ -3,47 +3,69 @@ from django.core.mail import send_mail
 from datetime import datetime
 from django.conf import settings
 import os
+import requests as rq
 
 host_url = os.environ.get('HOST_URL')
-
+def fetchAllData():
+    base_url = os.environ.get('API_URL')
+    response =  rq.get(base_url+'/fetchRecord')
+    response=response.json()
+    fraud = len(response['fraud'])
+    notFraud = len(response['notFraud'])
+    print(fraud,notFraud)
+    return [fraud/(fraud+notFraud),notFraud/(fraud+notFraud)] 
 
 def send_forget_password_mail(email,token,uid):
     subject = "Forgot Password Link"
     message = f"Hi click here to change your password {host_url}/resetPassword/{uid}/{token}/"
     email_from = settings.EMAIL_HOST_USER
+    print("email_from" ,email_from)
     recipient_list = [email]
     send_mail(subject,message,email_from,recipient_list)
+    print("mail sent")
     return True
 def send_email_verification(email,token,uid):
     try:
         subject = "Your account needs to be verified "
         message = f"click on the link to verify {host_url}/verify/{uid}/{token}/"
         email_from = settings.EMAIL_HOST_USER
+        print(email_from,"sending")
         recipient_list = [email]
         send_mail(subject,message,email_from,recipient_list)
+        print(email_from,"sent")
     except:
         return False    
     return True
 def createRequestBodyForCC(request):
     features = request.POST["transactionsDetails"]
+    request.session['transaction']=features
     features  = features.split()
     body={}
     try:
-        date = features[1]
-        time = features[2]
-        custom_id= int(features[0])
-        custom_x = float(features[3])
-        custom_y=  float(features[4])
-        term_x =  float(features[5])
-        term_y =  float(features[6])
-        amount=   float(features[7])
-        dis = ((abs(custom_x-term_x))**2+(abs(custom_y-term_y))**2)**.5
-        print(dis)
-        format_string = "%Y-%m-%d %H:%M:%S"
-        datetime_object = datetime.strptime(date+" "+time, format_string)
-        epochTime = datetime_object.timestamp()
+        
+        # unix_time,category,amount,merch_lat,merch_long
+        unix_time = int(features[0])
+        category = features[1]
+        amount = features[2]
+        merch_lat = features[3]
+        merch_long = features[4]
+        body = {'unix_time':unix_time,'category':category,
+                'amount':amount,'merch_lat':merch_lat,'merch_long':merch_long}
+        # date = features[1]
+        # time = features[2]
+        # custom_id= int(features[0])
+        # custom_x = float(features[3])
+        # custom_y=  float(features[4])
+        # term_x =  float(features[5])
+        # term_y =  float(features[6])
+        # amount=   float(features[7])
+        # dis = ((abs(custom_x-term_x))**2+(abs(custom_y-term_y))**2)**.5
+        # print(dis)
+        # format_string = "%Y-%m-%d %H:%M:%S"
+        # datetime_object = datetime.strptime(date+" "+time, format_string)
+        # epochTime = datetime_object.timestamp()
        
-        body = {'time':epochTime,'dist':dis,'custom_id':custom_id,'amount':amount}
+        # body = {'time':epochTime,'dist':dis,'custom_id':custom_id,'amount':amount}
     except Exception as e:
         print(e)
         return "Invalid format"
