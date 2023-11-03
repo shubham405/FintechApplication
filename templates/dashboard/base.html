@@ -1,34 +1,37 @@
-{% load static %}
+  {%load static%}
 <!DOCTYPE html>
+
 <html lang="en">
 
-<head>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Prediction</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{%static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-
+      href="{%static 'vendor/fontawesome-free/css/all.min.css'%}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
 
     <!-- Custom styles for this template-->
-    <link href="{%static 'css/prediction.css'%}" rel="stylesheet">
-    <link href="{%static 'css/custom.css'%}" rel="stylesheet">
-    
+    <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet" />
+  </head>
 
-</head>
-
-<body class="bg-gradient-primary">
-
+  <body id="page-top">
     <div id="wrapper">
       <!-- Sidebar -->
       <ul
@@ -515,164 +518,138 @@
               </li>
             </ul>
           </nav>
-     
+          <!-- End of Topbar -->
 
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="btn btn-primary" >
-                   <h3 style="text-align:center">Please Enter all the features of credit card and predict the fraud !</h3>
-                </div>
-                <div>
-                <div class="row">
-                
-                  <div class="col-lg-10">
-                     <form action="/prediction/" method="POST" class="user">
-                     {% csrf_token %}
-                         <div class="form-group row">
-                                       
-                                        <input type="text" class="form-control form-control-user" id="firstName"
-                                            placeholder="Enter transaction details" name = "transactionsDetails", required>
-                                       <div class="userPrediction">
-                                   <button style="margin-left:10px;"type="submit"  class="btn btn-primary btn-sm btn-user btn-block " >
-                                    Predict
-                                     </button>
-                                     </div> 
-                                    </div>
-                     </form>
-                    </div>
-                </div>
-                  </div>
-                </div>
-              </div>
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+              <a
+                href="#"
+                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                ><i class="fas fa-download fa-sm text-white-50"></i> Generate
+                Report</a
+              >
             </div>
 
-            {%if request.session.show%}
-    
-     <div class="columns-container">
-             <div class="col-xl-8 col-lg-7">
-            <!-- Content on the left side -->
-             <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Unix_time</th>
-      <th scope="col">Category</th>
-      <th scope="col">Amount</th>
-      <th scope="col">Merch Lat</th>
-      <th scope="col">Merch Long</th>
-    </tr>
-  </thead>
-  <tbody id = 'dataToShow'>
-    
-  </tbody>
-</table> 
-        </div>
-              <div class="col-xl-4 col-lg-5">
-              
-                <div class="card shadow mb-4">
-                  <!-- Card Header - Dropdown -->
-                  <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
-                  >
-                    <h6 class="m-0 font-weight-bold text-primary">
-                      Fraud Score
-                    </h6>
-                    <div class="dropdown no-arrow">
-                      <a
-                        class="dropdown-toggle"
-                        href="#"
-                        role="button"
-                        id="dropdownMenuLink"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i
-                          class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"
-                        ></i>
-                      </a>
-                      <div
-                        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                        aria-labelledby="dropdownMenuLink"
-                      >
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"
-                          >Something else here</a
+            <!-- Content Row -->
+            <div class="row">
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-primary text-uppercase mb-1"
                         >
+                          Earnings (Monthly)
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          $40,000
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
-                  <!-- Card Body -->
+                </div>
+              </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                    <div id="hiddenDiv" style="display: none;">
-            <p id="fraudScore">{{ request.session.fraudScore }}</p>
-            <p id = "curTransaction"> {{request.session.transaction}}</p>
-            </div>
-                      <canvas id="predictionPieChart"></canvas>
-                      <div id="valueLabel" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 24px;">Value</div>
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-success text-uppercase mb-1"
+                        >
+                          Earnings (Annual)
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          $215,000
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
                     </div>
-                   
+                  </div>
+                </div>
+              </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-info text-uppercase mb-1"
+                        >
+                          Tasks
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                          <div class="col-auto">
+                            <div
+                              class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
+                            >
+                              50%
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="progress progress-sm mr-2">
+                              <div
+                                class="progress-bar bg-info"
+                                role="progressbar"
+                                style="width: 50%"
+                                aria-valuenow="50"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pending Requests Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="text-xs font-weight-bold text-warning text-uppercase mb-1"
+                        >
+                          Pending Requests
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          18
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            </div>
-            {%endif%}
-             <div
-      class="modal fade"
-      id="logoutModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button
-              class="close"
-              type="button"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              data-dismiss="modal"
-            >
-              Cancel
-            </button>
-            <a class="btn btn-primary" href="/signout">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Pie Chart -->
-    
-    <!-- Bootstrap core JavaScript-->
-    <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
-    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
-    <script src="{% static 'vendor/chart.js/Chart.js'%}"></script>
-    <script src="{%static 'js/prediction.js'%}"></script>
-</body>
 
-</html>
+            <!-- Content Row -->
+
+            

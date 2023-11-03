@@ -2244,6 +2244,8 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #4e73df;
   border-color: #4e73df;
+  border-left: 0px;
+  margin-bottom: 10px
 }
 .btn-primary:hover {
   color: #fff;
@@ -9044,8 +9046,9 @@ a:focus {
 .container-md,
 .container-sm,
 .container-xl {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 22px;
+  margin-left: 4em;
+  padding-right: 11.5rem;
 }
 .scroll-to-top {
   position: fixed;
